@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .plus-sign {
+            font-size: 48px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .media-list {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+        .media-item {
+            background-color: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="media-list" id="mediaList"></div>
+    <div class="plus-sign" id="plusSign">+</div>
+
+    <script>
+        document.getElementById('plusSign').addEventListener('click', function() {
+            const name = prompt('Enter the name:');
+            if (!name) return;
+
+            const season = prompt('Enter the season (if applicable):');
+            const type = prompt('Enter the type (anime, movie, or series):');
+            if (!type) return;
+
+            const mediaList = document.getElementById('mediaList');
+            const mediaItem = document.createElement('div');
+            mediaItem.classList.add('media-item');
+            mediaItem.textContent = `Name: ${name}, Season: ${season}, Type: ${type}`;
+            mediaList.appendChild(mediaItem);
+        });
+    </script>
+</body>
+</html>
