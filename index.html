@@ -31,40 +31,84 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+        .form-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input, .form-container select, .form-container button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
     </style>
 </head>
 <body>
     <div class="media-list" id="mediaList"></div>
     <div class="plus-sign" id="plusSign">+</div>
+    
+    <div class="form-container" id="formContainer">
+        <input type="text" id="nameInput" placeholder="Enter the name">
+        <input type="text" id="seasonInput" placeholder="Enter the season (if applicable)">
+        <select id="typeSelect">
+            <option value="">Select type</option>
+            <option value="anime">Anime</option>
+            <option value="movie">Movie</option>
+            <option value="series">Series</option>
+        </select>
+        <button id="addButton">Add</button>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            // Load saved media items from localStorage
             const savedMediaList = JSON.parse(localStorage.getItem('mediaList')) || [];
             const mediaList = document.getElementById('mediaList');
-            savedMediaList.forEach(media => {
-                const mediaItem = document.createElement('div');
-                mediaItem.classList.add('media-item');
-                mediaItem.textContent = `Name: ${media.name}, Season: ${media.season}, Type: ${media.type}`;
-                mediaList.appendChild(mediaItem);
-            });
+
+            function renderMediaList() {
+                mediaList.innerHTML = '';
+                savedMediaList.forEach(media => {
+                    const mediaItem = document.createElement('div');
+                    mediaItem.classList.add('media-item');
+                    mediaItem.textContent = `Name: ${media.name}, Season: ${media.season}, Type: ${media.type}`;
+                    mediaList.appendChild(mediaItem);
+                });
+            }
+
+            renderMediaList();
 
             document.getElementById('plusSign').addEventListener('click', function() {
-                const name = prompt('Enter the name:');
-                if (!name) return;
+                document.getElementById('formContainer').style.display = 'flex';
+            });
 
-                const season = prompt('Enter the season (if applicable):');
-                const type = prompt('Enter the type (anime, movie, or series):');
-                if (!type) return;
+            document.getElementById('addButton').addEventListener('click', function() {
+                const name = document.getElementById('nameInput').value;
+                const season = document.getElementById('seasonInput').value;
+                const type = document.getElementById('typeSelect').value;
 
-                const mediaItem = document.createElement('div');
-                mediaItem.classList.add('media-item');
-                mediaItem.textContent = `Name: ${name}, Season: ${season}, Type: ${type}`;
-                mediaList.appendChild(mediaItem);
+                if (!name || !type) {
+                    alert('Please enter the name and select the type.');
+                    return;
+                }
 
-                // Save to localStorage
-                savedMediaList.push({ name, season, type });
+                const media = { name, season, type };
+                savedMediaList.push(media);
                 localStorage.setItem('mediaList', JSON.stringify(savedMediaList));
+
+                renderMediaList();
+
+                // Reset form
+                document.getElementById('nameInput').value = '';
+                document.getElementById('seasonInput').value = '';
+                document.getElementById('typeSelect').value = '';
+
+                document.getElementById('formContainer').style.display = 'none';
             });
         });
     </script>
