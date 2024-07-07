@@ -38,19 +38,34 @@
     <div class="plus-sign" id="plusSign">+</div>
 
     <script>
-        document.getElementById('plusSign').addEventListener('click', function() {
-            const name = prompt('Enter the name:');
-            if (!name) return;
-
-            const season = prompt('Enter the season (if applicable):');
-            const type = prompt('Enter the type (anime, movie, or series):');
-            if (!type) return;
-
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Load saved media items from localStorage
+            const savedMediaList = JSON.parse(localStorage.getItem('mediaList')) || [];
             const mediaList = document.getElementById('mediaList');
-            const mediaItem = document.createElement('div');
-            mediaItem.classList.add('media-item');
-            mediaItem.textContent = `Name: ${name}, Season: ${season}, Type: ${type}`;
-            mediaList.appendChild(mediaItem);
+            savedMediaList.forEach(media => {
+                const mediaItem = document.createElement('div');
+                mediaItem.classList.add('media-item');
+                mediaItem.textContent = `Name: ${media.name}, Season: ${media.season}, Type: ${media.type}`;
+                mediaList.appendChild(mediaItem);
+            });
+
+            document.getElementById('plusSign').addEventListener('click', function() {
+                const name = prompt('Enter the name:');
+                if (!name) return;
+
+                const season = prompt('Enter the season (if applicable):');
+                const type = prompt('Enter the type (anime, movie, or series):');
+                if (!type) return;
+
+                const mediaItem = document.createElement('div');
+                mediaItem.classList.add('media-item');
+                mediaItem.textContent = `Name: ${name}, Season: ${season}, Type: ${type}`;
+                mediaList.appendChild(mediaItem);
+
+                // Save to localStorage
+                savedMediaList.push({ name, season, type });
+                localStorage.setItem('mediaList', JSON.stringify(savedMediaList));
+            });
         });
     </script>
 </body>
