@@ -33,9 +33,17 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             color: lime; /* Lime green text color */
+            position: relative; /* Added for position */
         }
-        .media-property {
-            margin-bottom: 5px;
+        .media-item p {
+            margin: 5px 0;
+        }
+        .media-item .status {
+            cursor: pointer; /* Added cursor pointer */
+            color: #3498db; /* Blue color for status */
+            position: absolute; /* Added for position */
+            top: 10px; /* Adjust position */
+            right: 10px; /* Adjust position */
         }
         .form-container {
             display: none;
@@ -107,34 +115,15 @@
                 savedMediaList.sort((a, b) => a.name.localeCompare(b.name));
 
                 mediaList.innerHTML = '';
-                savedMediaList.forEach(media => {
+                savedMediaList.forEach((media, index) => {
                     const mediaItem = document.createElement('div');
                     mediaItem.classList.add('media-item');
-
-                    // Create separate elements for each property
-                    const nameElement = document.createElement('div');
-                    nameElement.classList.add('media-property');
-                    nameElement.textContent = `Name: ${media.name}`;
-
-                    const seasonElement = document.createElement('div');
-                    seasonElement.classList.add('media-property');
-                    seasonElement.textContent = `Season: ${media.season}`;
-
-                    const typeElement = document.createElement('div');
-                    typeElement.classList.add('media-property');
-                    typeElement.textContent = `Type: ${media.type}`;
-
-                    const statusElement = document.createElement('div');
-                    statusElement.classList.add('media-property');
-                    statusElement.textContent = `Status: ${media.status}`;
-
-                    // Append each property element to the media item
-                    mediaItem.appendChild(nameElement);
-                    mediaItem.appendChild(seasonElement);
-                    mediaItem.appendChild(typeElement);
-                    mediaItem.appendChild(statusElement);
-
-                    // Append media item to the media list
+                    mediaItem.innerHTML = `
+                        <p>Name: ${media.name}</p>
+                        <p>Season: ${media.season}</p>
+                        <p>Type: ${media.type}</p>
+                        <p>Status: <span class="status" onclick="toggleStatus(${index})">${media.status}</span></p>
+                    `;
                     mediaList.appendChild(mediaItem);
                 });
             }
@@ -181,6 +170,16 @@
                     }
                 }
             });
+
+            window.toggleStatus = function(index) {
+                if (savedMediaList[index].status === 'watching') {
+                    savedMediaList[index].status = 'watched';
+                } else {
+                    savedMediaList[index].status = 'watching';
+                }
+                localStorage.setItem('mediaList', JSON.stringify(savedMediaList));
+                renderMediaList();
+            };
         });
     </script>
 </body>
