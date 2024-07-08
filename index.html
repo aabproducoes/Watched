@@ -83,6 +83,9 @@
             <option value="anime">Anime</option>
             <option value="movie">Movie</option>
             <option value="series">Series</option>
+        </select>
+        <select id="statusSelect">
+            <option value="">Select status</option>
             <option value="watching">Watching</option>
             <option value="watched">Watched</option>
         </select>
@@ -104,7 +107,7 @@
                 savedMediaList.forEach(media => {
                     const mediaItem = document.createElement('div');
                     mediaItem.classList.add('media-item');
-                    mediaItem.textContent = `Name: ${media.name}, Season: ${media.season}, Type: ${media.type}`;
+                    mediaItem.textContent = `Name: ${media.name}, Season: ${media.season}, Type: ${media.type}, Status: ${media.status}`;
                     mediaList.appendChild(mediaItem);
                 });
             }
@@ -119,13 +122,14 @@
                 const name = document.getElementById('nameInput').value;
                 const season = document.getElementById('seasonInput').value;
                 const type = document.getElementById('typeSelect').value;
+                const status = document.getElementById('statusSelect').value;
 
-                if (!name || !type) {
-                    alert('Please enter the name and select the type.');
+                if (!name || !type || !status) {
+                    alert('Please enter the name, select the type, and select the status.');
                     return;
                 }
 
-                const media = { name, season, type };
+                const media = { name, season, type, status };
                 savedMediaList.push(media);
                 localStorage.setItem('mediaList', JSON.stringify(savedMediaList));
 
@@ -135,6 +139,7 @@
                 document.getElementById('nameInput').value = '';
                 document.getElementById('seasonInput').value = '';
                 document.getElementById('typeSelect').value = '';
+                document.getElementById('statusSelect').value = '';
 
                 document.getElementById('formContainer').style.display = 'none';
             });
