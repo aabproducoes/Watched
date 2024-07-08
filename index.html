@@ -34,6 +34,9 @@
             border-radius: 4px;
             color: lime; /* Lime green text color */
         }
+        .media-property {
+            margin-bottom: 5px;
+        }
         .form-container {
             display: none;
             flex-direction: column;
@@ -107,7 +110,31 @@
                 savedMediaList.forEach(media => {
                     const mediaItem = document.createElement('div');
                     mediaItem.classList.add('media-item');
-                    mediaItem.textContent = `Name: ${media.name}, Season: ${media.season}, Type: ${media.type}, Status: ${media.status}`;
+
+                    // Create separate elements for each property
+                    const nameElement = document.createElement('div');
+                    nameElement.classList.add('media-property');
+                    nameElement.textContent = `Name: ${media.name}`;
+
+                    const seasonElement = document.createElement('div');
+                    seasonElement.classList.add('media-property');
+                    seasonElement.textContent = `Season: ${media.season}`;
+
+                    const typeElement = document.createElement('div');
+                    typeElement.classList.add('media-property');
+                    typeElement.textContent = `Type: ${media.type}`;
+
+                    const statusElement = document.createElement('div');
+                    statusElement.classList.add('media-property');
+                    statusElement.textContent = `Status: ${media.status}`;
+
+                    // Append each property element to the media item
+                    mediaItem.appendChild(nameElement);
+                    mediaItem.appendChild(seasonElement);
+                    mediaItem.appendChild(typeElement);
+                    mediaItem.appendChild(statusElement);
+
+                    // Append media item to the media list
                     mediaList.appendChild(mediaItem);
                 });
             }
