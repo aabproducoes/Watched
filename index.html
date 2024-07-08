@@ -32,6 +32,7 @@
             margin: 5px 0;
             border: 1px solid #ddd;
             border-radius: 4px;
+            color: lime; /* Lime green text color */
         }
         .form-container {
             display: none;
@@ -94,6 +95,9 @@
             const mediaList = document.getElementById('mediaList');
 
             function renderMediaList() {
+                // Sort media list alphabetically by name
+                savedMediaList.sort((a, b) => a.name.localeCompare(b.name));
+
                 mediaList.innerHTML = '';
                 savedMediaList.forEach(media => {
                     const mediaItem = document.createElement('div');
