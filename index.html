@@ -110,6 +110,7 @@
                 savedMediaList.forEach(media => {
                     const mediaItem = document.createElement('div');
                     mediaItem.classList.add('media-item');
+<<<<<<< HEAD
 
                     // Create separate elements for each property
                     const nameElement = document.createElement('div');
@@ -135,6 +136,9 @@
                     mediaItem.appendChild(statusElement);
 
                     // Append media item to the media list
+=======
+                    mediaItem.textContent = `Name: ${media.name} </br> Season: ${media.season}, Type: ${media.type}, Status: ${media.status}`;
+>>>>>>> f8d9327b144a992e3fc467871831215c3cd73c10
                     mediaList.appendChild(mediaItem);
                 });
             }
