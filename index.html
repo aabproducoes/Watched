@@ -5,81 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media Tracker</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #000;
-            color: #fff; /* Text color */
-        }
-        .plus-sign {
-            font-size: 48px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            color: #3498db; /* Blue color for the plus sign */
-        }
-        .media-list {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-        }
-        .media-item {
-            background-color: #2c3e50; /* Dark blue background for media items */
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            color: lime; /* Lime green text color */
-            position: relative; /* Added for position */
-        }
-        .media-item p {
-            margin: 5px 0;
-        }
-        .media-item .status {
-            cursor: pointer; /* Added cursor pointer */
-            color: #3498db; /* Blue color for status */
-            position: absolute; /* Added for position */
-            top: 10px; /* Adjust position */
-            right: 10px; /* Adjust position */
-        }
-        .form-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #2c3e50; /* Dark blue background for form container */
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            color: #fff; /* Text color */
-        }
-        .form-container input, .form-container select, .form-container button {
-            margin: 10px 0;
-            padding: 10px;
-            width: 100%;
-            max-width: 300px;
-            background-color: #3498db; /* Blue background for input fields and button */
-            color: #fff; /* Text color for input fields and button */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .form-container input::placeholder, .form-container select::placeholder {
-            color: #ccc; /* Placeholder text color */
-        }
-        .erase-button {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e74c3c; /* Red color for erase button */
-            color: #fff; /* Text color for erase button */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        /* Your existing styles */
     </style>
 </head>
 <body>
@@ -89,6 +15,7 @@
     <div class="form-container" id="formContainer">
         <input type="text" id="nameInput" placeholder="Enter the name">
         <input type="text" id="seasonInput" placeholder="Enter the season (if applicable)">
+        <input type="url" id="linkInput" placeholder="Enter a link (optional)">
         <select id="typeSelect">
             <option value="">Select type</option>
             <option value="anime">Anime</option>
@@ -119,7 +46,7 @@
                     const mediaItem = document.createElement('div');
                     mediaItem.classList.add('media-item');
                     mediaItem.innerHTML = `
-                        <p>Name: ${media.name}</p>
+                        <p>Name: <a href="${media.link || '#'}" target="_blank" style="color: lime;">${media.name}</a></p>
                         <p>Season: ${media.season}</p>
                         <p>Type: ${media.type}</p>
                         <span class="status" onclick="toggleStatus(${index})">${media.status}</span>
@@ -139,13 +66,14 @@
                 const season = document.getElementById('seasonInput').value;
                 const type = document.getElementById('typeSelect').value;
                 const status = document.getElementById('statusSelect').value;
+                const link = document.getElementById('linkInput').value;
 
                 if (!name || !type || !status) {
                     alert('Please enter the name, select the type, and select the status.');
                     return;
                 }
 
-                const media = { name, season, type, status };
+                const media = { name, season, type, status, link };
                 savedMediaList.push(media);
                 localStorage.setItem('mediaList', JSON.stringify(savedMediaList));
 
@@ -154,6 +82,7 @@
                 // Reset form
                 document.getElementById('nameInput').value = '';
                 document.getElementById('seasonInput').value = '';
+                document.getElementById('linkInput').value = '';
                 document.getElementById('typeSelect').value = '';
                 document.getElementById('statusSelect').value = '';
 
